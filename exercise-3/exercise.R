@@ -15,16 +15,29 @@ devtools::install_github("hadley/fueleconomy")
 library(fueleconomy)
 
 # You should have have access to the vehicles data.frame
-
+vehicles <- as.data.frame(vehicles)
 
 # Which Accura model has the best hwy MPG in 2015? (without method chaining)
-
+target_vehicles <- filter(vehicles, make == "Acura" & year == 2015)
+max.hwy <- max(target_vehicles$hwy)
+vehicle <- filter(target_vehicles, hwy == max.hwy)
+model <- select(vehicle, model)
 
 # Which Accura model has the best hwy MPG in 2015? (nesting functions)
-
+best.hwy.model <- select(
+  filter (
+    filter (
+      vehicles, make == "Acura" & year == 2015
+    ),
+    hwy == max.hwy
+  ),
+  model
+)
 
 # Which Accura model has the best hwy MPG in 2015? (pipe operator)
-
+best.model <- filter(vehicles, make == "Acura" & year == 2015) %>%
+  filter(hwy == max.hwy) %>%
+  select(model)
 
 ### Bonus ###
 
